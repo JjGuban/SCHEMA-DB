@@ -1,0 +1,101 @@
+SQL QUERY FOR CREATING THE TABLES
+Paste query here
+-- Customers Table
+CREATE TABLE Customers (
+customer_id INTEGER PRIMARY KEY AUTOINCREMENT,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+visit_date DATE,
+membership_status VARCHAR(20),
+total_spent DECIMAL(10, 2)
+);
+-- Manga Table
+CREATE TABLE Manga (
+manga_id INTEGER PRIMARY KEY AUTOINCREMENT,
+title VARCHAR(100),
+author VARCHAR(100),
+genre VARCHAR(50)
+);
+-- Purchases Table
+CREATE TABLE Purchases (
+purchase_id INTEGER PRIMARY KEY AUTOINCREMENT,
+customer_id INTEGER,
+manga_id INTEGER,
+purchase_date DATE,
+price DECIMAL(10, 2),
+FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+FOREIGN KEY (manga_id) REFERENCES Manga(manga_id)
+);
+-- Rentals Table
+CREATE TABLE Rentals (
+rental_id INTEGER PRIMARY KEY AUTOINCREMENT,
+customer_id INTEGER,
+manga_id INTEGER,
+rental_date DATE,
+return_date DATE,
+rental_fee DECIMAL(10, 2),
+returned BOOLEAN,
+FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+FOREIGN KEY (manga_id) REFERENCES Manga(manga_id)
+);
+-- Pricing Table
+CREATE TABLE Pricing (
+manga_id INTEGER,
+purchase_price DECIMAL(10, 2),
+rental_price DECIMAL(10, 2),
+PRIMARY KEY (manga_id),
+FOREIGN KEY (manga_id) REFERENCES Manga(manga_id)
+);
+SQL QUERY FOR INSERTING RECORDS IN TABLE
+Paste query here. Five rows of data per table can be considered enough. You can use AI to
+work on this part much faster.
+INSERT INTO Customers (first_name, last_name, visit_date, membership_status, total_spent)
+VALUES
+('John', 'Doe', '2023-09-01', 'Regular', 100.50),
+('Jane', 'Smith', '2023-09-02', 'VIP', 350.75),
+('Tom', 'Nakamura', '2023-09-03', 'Non-member', 25.00),
+('Sara', 'Kato', '2023-09-04', 'VIP', 200.00),
+('Leo', 'Tanaka', '2023-09-05', 'Regular', 120.30),
+('Mina', 'Suzuki', '2023-09-06', 'Non-member', 50.00),
+('Eren', 'Yeager', '2023-09-07', 'Regular', 80.90),
+('Mikasa', 'Ackerman', '2023-09-08', 'VIP', 400.25);
+INSERT INTO Manga (title, author, genre)
+VALUES
+('Naruto', 'Masashi Kishimoto', 'Action'),
+('One Piece', 'Eiichiro Oda', 'Adventure'),
+('Attack on Titan', 'Hajime Isayama', 'Fantasy'),
+('My Hero Academia', 'Kohei Horikoshi', 'Superhero'),
+('Demon Slayer', 'Koyoharu Gotouge', 'Action'),
+('Death Note', 'Tsugumi Ohba', 'Thriller'),
+('Dragon Ball', 'Akira Toriyama', 'Adventure'),
+('Bleach', 'Tite Kubo', 'Action');
+INSERT INTO Purchases (customer_id, manga_id, purchase_date, price)
+VALUES
+(1, 1, '2023-09-01', 15.99),
+(2, 2, '2023-09-02', 12.99),
+(5, 3, '2023-09-03', 17.99),
+(6, 4, '2023-09-04', 13.99),
+(7, 5, '2023-09-05', 14.99),
+(8, 6, '2023-09-06', 9.99),
+(1, 7, '2023-09-07', 19.99),
+(6, 8, '2023-09-08', 14.49);
+INSERT INTO Rentals (customer_id, manga_id, rental_date, return_date, rental_fee, returned)
+VALUES
+(1, 2, '2023-09-01', '2023-09-07', 3.99, TRUE),
+(1, 3, '2023-09-08', NULL, 4.99, FALSE),
+(2, 4, '2023-09-02', '2023-09-10', 4.99, TRUE),
+(2, 5, '2023-09-04', NULL, 4.99, FALSE),
+(2, 1, '2023-09-06', '2023-09-12', 3.99, TRUE),
+(3, 6, '2023-09-03', '2023-09-09', 2.99, TRUE),
+(3, 7, '2023-09-05', NULL, 3.99, FALSE),
+(3, 8, '2023-09-07', '2023-09-14', 4.49, TRUE);
+INSERT INTO Pricing (manga_id, purchase_price, rental_price)
+VALUES
+(1, 15.99, 3.99),
+(2, 12.99, 3.99),
+(3, 17.99, 4.99),
+(4, 13.99, 4.99),
+(5, 14.99, 4.99),
+(6, 9.99, 2.99),
+(7, 19.99, 4.49),
+(8, 14.49, 4.99);
